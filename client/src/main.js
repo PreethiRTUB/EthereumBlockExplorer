@@ -11,7 +11,7 @@ import VueChartkick from 'vue-chartkick'
 import Chart from 'chart.js'
 import Notification from 'vue-notification'
 
-const url = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : 'https://explorer.snet.tu-berlin.de/api/'
+const url = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : '<URL to production Server>'
 
 backendCli.initialize(url)
 
