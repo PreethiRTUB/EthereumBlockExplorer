@@ -9,9 +9,9 @@
   "deploy" : {
     "production" : {
       "user" : "node",
-      "host" : ["explorer.snet.tu-berlin.de"],
+      "host" : ["Host URL"],
       "ref"  : "origin/develop",
-      "repo" : "git@gitlab.tubit.tu-berlin.de:fvictor257/iosl-blockexplorer.git",
+      "repo" : "<Git Repo>",
       "path" : "/var/www/production",
       "post-deploy" : "npm install && node client/build/build.js && pm2 start ecosystem.json"
      }
