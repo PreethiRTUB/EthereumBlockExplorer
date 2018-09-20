@@ -1,7 +1,7 @@
 const config = {
   host: '127.0.0.1',
   port: 3000,
-  serverName: 'https://explorer.snet.tu-berlin.de/',
+  serverName: '<URL to server>',
   log: {
     path: 'logs/explorer',
     level: 'debug'
@@ -10,7 +10,7 @@ const config = {
     path: 'logs/events',
     level: 'debug'
   },
-  parityAddress: 'http://130.149.223.150:8545/',
+  parityAddress: '<URL to Parity>',
   importInterval: 5000
 }
 
