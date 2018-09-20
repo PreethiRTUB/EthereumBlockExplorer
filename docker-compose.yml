@@ -1,0 +1,26 @@
+version: '3'
+services:
+  ios-explorer:
+    depends_on:
+      - orientdb
+    build:
+      context: .
+      dockerfile: docker/ios-explorer/Dockerfile
+    links:
+      - orientdb
+    ports:
+      - "9000:8080"
+      - "3000:3000"
+    volumes:
+      - "./:/usr/src/server"
+  orientdb:
+    build:
+      context: .
+      dockerfile: docker/db/Dockerfile
+    ports:
+      - "2424:2424"
+      - "2480:2480"
+    volumes:
+      - "./:/usr/src/db"
+
+      

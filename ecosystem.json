@@ -1,0 +1,19 @@
+{
+  "apps" : [{
+     "name" : "fraud-explorer",
+     "script" : "scripts/server.js",
+     "env": {
+      "RUN_IMPORTER": 1
+     }
+  }],
+  "deploy" : {
+    "production" : {
+      "user" : "node",
+      "host" : ["explorer.snet.tu-berlin.de"],
+      "ref"  : "origin/develop",
+      "repo" : "git@gitlab.tubit.tu-berlin.de:fvictor257/iosl-blockexplorer.git",
+      "path" : "/var/www/production",
+      "post-deploy" : "npm install && node client/build/build.js && pm2 start ecosystem.json"
+     }
+  }
+}

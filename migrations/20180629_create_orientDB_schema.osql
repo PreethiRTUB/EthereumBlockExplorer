@@ -1,0 +1,64 @@
+CREATE USER root IDENTIFIED BY eith8saevee4eituLuro ROLE admin;
+
+CREATE class BaseBlock;
+CREATE property BaseBlock.blockHash STRING (NOTNULL);
+CREATE property BaseBlock.blockNumber DECIMAL (NOTNULL);
+
+CREATE class BaseTransaction;
+CREATE property BaseTransaction.traceAddress EMBEDDEDLIST INTEGER;
+CREATE property BaseTransaction.transactionHash STRING (NOTNULL);
+CREATE property BaseTransaction.type STRING;
+
+CREATE class BaseAddress;
+CREATE property BaseAddress.fromAddress STRING;
+CREATE property BaseAddress.toAddress STRING;
+
+CREATE class result;
+CREATE property result.gasUsed STRING;
+
+
+
+CREATE class Block extends BaseBlock, V;
+CREATE property Block.blockTimestamp STRING;
+CREATE property Block.parentHash STRING;
+CREATE property Block.gasLimit DECIMAL
+
+
+
+CREATE class TransactionAction EXTENDS BaseAddress;
+CREATE property TransactionAction.callType STRING;
+CREATE property TransactionAction.gas STRING;
+CREATE property TransactionAction.input STRING;
+CREATE property TransactionAction.value STRING;
+
+
+CREATE class Transaction EXTENDS BaseBlock,BaseTransaction, E;
+CREATE property Transaction.action EMBEDDED TransactionAction;
+CREATE property Transaction.result EMBEDDED result;
+
+
+CREATE class Address extends V;
+CREATE property Address.address STRING (NOTNULL);
+
+
+CREATE CLASS contractaction;
+CREATE property contractaction.gas STRING;
+CREATE property contractaction.value STRING;
+
+
+CREATE CLASS contractresult EXTENDS result;
+CREATE property contractresult.code STRING;
+
+
+CREATE CLASS Contract EXTENDS Address,BaseBlock,BaseTransaction;
+CREATE property Contract.action EMBEDDED contractaction;
+CREATE property Contract.result EMBEDDED contractresult;
+
+
+CREATE class topics EXTENDS BaseAddress;
+
+CREATE class TokenTransfer EXTENDS E,BaseBlock,BaseTransaction;
+CREATE property TokenTransfer.address STRING;
+CREATE property TokenTransfer.topics EMBEDDED topics;
+
+CREATE INDEX Address.address2 ON  Address(address) DICTIONARY;

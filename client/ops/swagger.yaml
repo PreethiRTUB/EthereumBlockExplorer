@@ -1,0 +1,214 @@
+swagger: '2.0'
+info:
+  description: >-
+    A simple API to feed data from KOA application to both front-end and OrientDB for Etherium Block Explorer.
+  version: 1.0.0
+  title: Etherium Block Explorer Service
+  contact:
+    email: p.narula@campus.tu-berlin.de
+tags:
+  - name: BlockChain
+    description: Operations related to Block, Transactions and Internal Transaction.
+  - name: Address
+    description: Operations involving the contracts and addresses.
+schemes:
+  - http
+paths:
+  /block:
+    get:
+      tags:
+        - BlockChain
+      summary: Returns all blocks.
+      description: ''
+      operationId: getBlocks
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              type: integer
+        '404':
+          description: Chain not found
+  '/block/{blockID}':
+    get:
+      tags:
+        - BlockChain
+      summary: Get block by ID
+      description: Returns a single Block
+      operationId: getBlockById
+      produces:
+        - application/json
+      parameters:
+        - name: blockID
+          in: path
+          description: ID of block
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: found block
+          schema:
+            $ref: '#/definitions/Block'
+        '404':
+          description: Block could not be found
+  '/block/{blockID}/transaction':
+    get:
+      tags:
+        - BlockChain
+      summary: Get the list of transactions for this block.
+      description: ''
+      operationId: listTransactions
+      produces:
+        - application/json
+      parameters:
+        - name: blockID
+          in: path
+          description: ID of block
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Found transaction for this block. Returned is List of transaction.
+          schema:
+            type: array
+            items:
+              type: integer
+        '400':
+          description: No transactions found.
+        '404':
+          description: Specified block id not found.
+  '/block/{blockID}/transaction/{transactionId}':
+    get:
+      tags:
+        - BlockChain
+      summary: Find transaction by ID
+      description: Returns the transaction with the given ID.
+      operationId: getTransactionById
+      produces:
+        - application/json
+      parameters:
+        - name: blockID
+          in: path
+          description: ID of the block.
+          required: true
+          type: integer
+          format: int64
+        - name: transactionId
+          in: path
+          description: ID of the transaction.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: found transaction
+          schema:
+            $ref: '#/definitions/Transaction'
+        '400':
+          description: Invalid ID(s) supplied.
+        '404':
+          description: block or transaction not found.
+  '/block/{blockID}/transaction/{transactionId}/intTrans':
+    get:
+      tags:
+        - BlockChain
+      summary: Get list of Internal transaction
+      description: Returns the List of interal transactions of transaction with the given ID.
+      operationId: getInternalTransaction
+      produces:
+        - application/json
+      parameters:
+        - name: blockID
+          in: path
+          description: ID of the block.
+          required: true
+          type: integer
+          format: int64
+        - name: transactionId
+          in: path
+          description: ID of the transaction.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: found internal transaction list
+          schema:
+              type: array
+              items:
+                type: integer
+        '400':
+          description: Invalid ID(s) supplied.
+        '404':
+          description: block or transaction not found.
+  '/block/{blockID}/transaction/{transactionId}/intTrans/{intTransId}':
+    get:
+      tags:
+        - BlockChain
+      summary: Find Internal transaction by ID
+      description: Returns the interal transaction of transaction with the given ID.
+      operationId: getInternalTransactionbyId
+      produces:
+        - application/json
+      parameters:
+        - name: blockID
+          in: path
+          description: ID of the block.
+          required: true
+          type: integer
+          format: int64
+        - name: transactionId
+          in: path
+          description: ID of the transaction.
+          required: true
+          type: integer
+          format: int64
+        - name: intTransId
+          in: path
+          description: ID of the  Internal transaction.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: found internal transaction list
+          schema:
+            $ref: '#/definitions/InternalTransaction'
+        '400':
+          description: Invalid ID(s) supplied.
+        '404':
+          description: block or transaction not found.
+definitions:
+  Block:
+    type: object
+    properties:
+      blockNum:
+        type: integer
+  Transaction:
+      type: object
+      required:
+        - tx_hash
+        - tx_blocknum
+      properties:
+        tx_hash:
+          type: object
+          format: hash
+        tx_blocknum:
+          type: integer
+  InternalTransaction:
+    type: object
+    properties:
+      inttx_block_num:
+        type: integer
+        format: int64
+      inttx_block_hash:
+        type: object
+        format: hash
+      inttx_parent_hash:
+        type: object
+        format: hash
